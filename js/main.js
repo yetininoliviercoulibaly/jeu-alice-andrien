@@ -395,7 +395,7 @@
     const block = document.createElement("div");
     block.className = "stats-block";
     let any = false;
-    for (const s of SUBJECTS) {
+    for (const s of SUBJECTS.concat(["algo"])) {
       const st = p.stats[s];
       if (!st || !st.total) continue;
       any = true;

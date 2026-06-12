@@ -22,7 +22,7 @@ const Save = {
   // Ajoute les nouveaux champs aux anciennes sauvegardes
   _migrate(p) {
     if (!p.stats) p.stats = {};
-    for (const s of ["math", "francais", "sciences", "culture"]) {
+    for (const s of ["math", "francais", "sciences", "culture", "algo"]) {
       if (!p.stats[s]) p.stats[s] = { ok: 0, total: 0 };
     }
     if (!p.review) p.review = [];   // questions ratées à revoir

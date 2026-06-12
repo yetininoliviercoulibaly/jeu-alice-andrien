@@ -2,7 +2,7 @@
    Stratégie « réseau d'abord » : les mises à jour arrivent dès qu'on est
    connecté, et le cache prend le relais hors ligne. */
 
-const CACHE = "gfaa-v1";
+const CACHE = "gfaa-v2";
 const FILES = [
   "./",
   "index.html",
@@ -12,6 +12,7 @@ const FILES = [
   "js/dictee.js",
   "js/questions.js",
   "js/questions-extra.js",
+  "js/questions-adultes.js",
   "js/levels.js",
   "js/profiles.js",
   "js/audio.js",

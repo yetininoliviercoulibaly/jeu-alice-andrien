@@ -1,7 +1,9 @@
-# 🍄 Les Aventures d'Alice & Andrien
+# 🍄 Les Aventures d'Alice & Adrien
 
 Un jeu de plateforme éducatif (type Mario) pour apprendre en s'amusant :
-**Maths, Français, Sciences et Culture générale**, de la maternelle au CM2.
+**Maths, Français, Sciences et Culture générale**, de la maternelle au CM2 —
+et pour les parents, trois classes bonus **Collège, Lycée et Université**
+(maths et algorithmique) pour jouer en famille !
 
 ## 🚀 Comment jouer
 

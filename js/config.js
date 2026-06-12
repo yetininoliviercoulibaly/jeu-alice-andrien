@@ -34,11 +34,15 @@ const CONFIG = {
 };
 
 // Classes scolaires disponibles pour les profils
+// (les trois dernières sont pour les parents : maths + algorithmique)
 const TIERS = [
   { id: "maternelle", label: "🧸 Maternelle (MS/GS)" },
   { id: "cp_ce1",     label: "✏️ CP – CE1" },
   { id: "ce2_cm1",    label: "📖 CE2 – CM1" },
   { id: "cm2",        label: "🎓 CM2" },
+  { id: "college",    label: "🎒 Collège" },
+  { id: "lycee",      label: "🏫 Lycée" },
+  { id: "superieur",  label: "🧠 Université" },
 ];
 
 const AVATARS = ["🦊", "🐰", "🐱", "🐸", "🦄", "🐼", "🦖", "🐙"];

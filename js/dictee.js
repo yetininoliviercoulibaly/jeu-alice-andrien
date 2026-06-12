@@ -53,6 +53,7 @@ const DICTEE_WORDS = {
 
 // Crée une question de dictée (ou null si la synthèse vocale est absente)
 function makeDictee(tier, diff) {
+  if (!DICTEE_WORDS[tier]) return null; // pas de dictée pour les classes parents
   const isCopy = tier === "maternelle";
   if (!isCopy && !("speechSynthesis" in window)) return null;
   const pool = DICTEE_WORDS[tier][diff] || DICTEE_WORDS[tier][1];

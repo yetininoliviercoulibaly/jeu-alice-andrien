@@ -546,9 +546,16 @@ const Questions = {
     return this._shuffleQuestion(src, subject);
   },
 
+  // Matières jouées par une classe (les classes « parents » n'ont que
+  // maths et algorithmique — voir questions-adultes.js)
+  _subjects(tier) {
+    return (typeof TIER_SUBJECTS !== "undefined" && TIER_SUBJECTS[tier]) || SUBJECTS;
+  },
+
   // Une question pour un bloc « ? » pendant le niveau
   getOne(tier, diff) {
-    const subject = SUBJECTS[_ri(0, SUBJECTS.length - 1)];
+    const subs = this._subjects(tier);
+    const subject = subs[_ri(0, subs.length - 1)];
     if (subject === "math" && Math.random() < 0.6) return genMath(tier, diff);
     return this._fromBank(tier, subject, diff);
   },
@@ -557,8 +564,9 @@ const Questions = {
   getQuiz(tier, diff, count) {
     const list = [];
     const subjects = [];
+    const subs = this._subjects(tier);
     while (subjects.length < count) {
-      subjects.push(...SUBJECTS.slice().sort(() => Math.random() - 0.5));
+      subjects.push(...subs.slice().sort(() => Math.random() - 0.5));
     }
     for (let i = 0; i < count; i++) {
       const subject = subjects[i];
