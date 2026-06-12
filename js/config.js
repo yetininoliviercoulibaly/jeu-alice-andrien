@@ -8,20 +8,21 @@ const CONFIG = {
   // Nombre de questions posées au quiz de fin de niveau
   quizQuestionCount: 6,
 
-  // Les 8 niveaux du jeu.
+  // Les 10 niveaux du jeu.
   //  - threshold  : part de bonnes réponses requise au quiz pour passer (0.6 = 60 %)
   //  - difficulty : difficulté des questions (1 = facile, 2 = moyen, 3 = difficile)
+  //  - boss       : si présent, le quiz de fin devient un combat de boss !
   levels: [
     { name: "La Prairie",          emoji: "🌼", threshold: 0.50, difficulty: 1 },
     { name: "La Forêt",            emoji: "🌳", threshold: 0.60, difficulty: 1 },
     { name: "Les Collines",        emoji: "⛰️", threshold: 0.60, difficulty: 1 },
-    { name: "La Plage",            emoji: "🏖️", threshold: 0.65, difficulty: 2 },
+    { name: "La Plage",            emoji: "🏖️", threshold: 0.65, difficulty: 2, boss: "🦀" },
     { name: "Les Grottes",         emoji: "🦇", threshold: 0.70, difficulty: 2 },
     { name: "La Montagne glacée",  emoji: "❄️", threshold: 0.70, difficulty: 2 },
-    { name: "Le Volcan",           emoji: "🌋", threshold: 0.75, difficulty: 3 },
+    { name: "Le Volcan",           emoji: "🌋", threshold: 0.75, difficulty: 3, boss: "🐉" },
     { name: "Le Château",          emoji: "🏰", threshold: 0.80, difficulty: 3 },
     { name: "Les Nuages",          emoji: "☁️", threshold: 0.80, difficulty: 3 },
-    { name: "L'Espace",            emoji: "🚀", threshold: 0.85, difficulty: 3 },
+    { name: "L'Espace",            emoji: "🚀", threshold: 0.85, difficulty: 3, boss: "👾" },
   ],
 
   // Récompenses des blocs « ? » pendant le niveau
@@ -41,3 +42,19 @@ const TIERS = [
 ];
 
 const AVATARS = ["🦊", "🐰", "🐱", "🐸", "🦄", "🐼", "🦖", "🐙"];
+
+// Boutique : avatars à débloquer avec les pièces gagnées
+const SHOP_AVATARS = [
+  { e: "🐶", price: 50 },
+  { e: "🐹", price: 50 },
+  { e: "🦁", price: 80 },
+  { e: "🐯", price: 80 },
+  { e: "🦉", price: 120 },
+  { e: "🐧", price: 120 },
+  { e: "🐲", price: 180 },
+  { e: "🤖", price: 180 },
+  { e: "🧜‍♀️", price: 250 },
+  { e: "🦸", price: 250 },
+  { e: "🧙", price: 300 },
+  { e: "👑", price: 400 },
+];

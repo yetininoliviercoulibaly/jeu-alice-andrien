@@ -565,6 +565,12 @@ const Questions = {
       if (subject === "math" && Math.random() < 0.6) list.push(genMath(tier, diff));
       else list.push(this._fromBank(tier, subject, diff));
     }
+    // Une question de français sur deux environ devient une dictée 🔊
+    if (typeof makeDictee === "function" && Math.random() < 0.5) {
+      const idx = list.findIndex(it => it.subject === "francais");
+      const dictee = idx >= 0 ? makeDictee(tier, diff) : null;
+      if (dictee) list[idx] = dictee;
+    }
     return list;
   },
 };

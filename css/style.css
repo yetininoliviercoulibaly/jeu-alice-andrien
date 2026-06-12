@@ -233,6 +233,86 @@ input[type=text], input[type=number] {
 .parent-profile-row select { font-family: inherit; font-size: .95rem; padding: 6px; border-radius: 10px; }
 .danger-btn { background: #ffcdd2; border: none; border-radius: 10px; padding: 6px 10px; cursor: pointer; font-family: inherit; }
 
+/* ---------- Boutique ---------- */
+.shop-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 14px; margin: 14px;
+  width: 100%; max-width: 720px;
+}
+.shop-card {
+  background: #fff; border-radius: 18px;
+  padding: 14px 6px; text-align: center;
+  box-shadow: 0 5px 0 rgba(0,0,0,.15);
+  cursor: pointer; border: 4px solid transparent;
+}
+.shop-card .shop-avatar { font-size: 2.6rem; }
+.shop-card .shop-price { font-size: 1rem; color: #b8860b; font-weight: bold; }
+.shop-card .shop-state { font-size: .85rem; color: #666; }
+.shop-card.equipped { border-color: #4caf50; background: #e8f5e9; }
+.shop-card.owned:hover { border-color: #4caf50; }
+.shop-card.buyable:hover { border-color: #ffd93d; transform: scale(1.04); }
+.shop-card.locked { opacity: .55; cursor: default; }
+.shop-card.locked .shop-avatar { filter: grayscale(1); }
+
+/* ---------- Combat de boss ---------- */
+.quiz-boss {
+  display: flex; align-items: center; justify-content: center; gap: 14px;
+  background: linear-gradient(90deg, #2c2c54, #474787);
+  border-radius: 16px;
+  padding: 8px 14px; margin-bottom: 10px;
+  color: #fff;
+}
+.boss-emoji { font-size: 2.6rem; animation: bossFloat 1.6s ease-in-out infinite; }
+.boss-hp { font-size: 1.1rem; letter-spacing: 2px; }
+.boss-shields { font-size: 1rem; margin-left: auto; }
+@keyframes bossFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+.quiz-boss.boss-hit .boss-emoji { animation: bossHit .5s; }
+@keyframes bossHit {
+  0% { transform: scale(1); filter: none; }
+  30% { transform: scale(1.35) rotate(-12deg); filter: brightness(2) sepia(1) hue-rotate(-50deg); }
+  100% { transform: scale(1); filter: none; }
+}
+.quiz-card.shake { animation: cardShake .5s; }
+@keyframes cardShake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-12px); }
+  40% { transform: translateX(10px); }
+  60% { transform: translateX(-7px); }
+  80% { transform: translateX(4px); }
+}
+
+/* ---------- Dictée ---------- */
+.dictee-wrap {
+  grid-column: 1 / -1;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+}
+.dictee-input {
+  font-family: inherit; font-size: 1.5rem;
+  padding: 12px 18px;
+  border: 4px solid #90caf9; border-radius: 16px;
+  text-align: center; outline: none;
+  width: min(360px, 86%);
+  letter-spacing: 2px;
+}
+.dictee-input:focus { border-color: #42a5f5; }
+.dictee-input.good { border-color: #4caf50; background: #e8f5e9; }
+.dictee-input.bad { border-color: #e53935; background: #ffebee; }
+
+/* ---------- Stats parents ---------- */
+.stats-block { margin: 6px 0 12px; }
+.stats-row { display: flex; align-items: center; gap: 8px; font-size: .9rem; color: #444; margin: 3px 0; }
+.stats-row .stats-label { width: 105px; text-align: left; }
+.stats-bar { flex: 1; height: 14px; background: #eee; border-radius: 7px; overflow: hidden; }
+.stats-bar > div { height: 100%; border-radius: 7px; background: #4caf50; }
+.stats-bar > div.mid { background: #ff9800; }
+.stats-bar > div.low { background: #e53935; }
+.stats-pct { width: 84px; text-align: right; font-weight: bold; }
+.missed-list { font-size: .85rem; color: #777; text-align: left; margin: 4px 0 0 12px; }
+
 /* ---------- Astuce rotation ---------- */
 .rotate-hint {
   position: fixed; bottom: 10px; left: 50%; transform: translateX(-50%);

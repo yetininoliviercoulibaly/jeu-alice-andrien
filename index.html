@@ -4,7 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#4ec0f0">
 <title>Les Aventures d'Alice et Andrien</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -38,9 +42,19 @@
   <div class="levelmap-header">
     <button id="btn-back-profiles" class="small-btn">👤 Changer de joueur</button>
     <div id="player-banner" class="player-banner"></div>
+    <button id="btn-shop" class="small-btn">🛍️ Boutique</button>
   </div>
   <h2>🗺️ Choisis ton niveau</h2>
   <div id="level-grid" class="level-grid"></div>
+</div>
+
+<!-- ÉCRAN : Boutique -->
+<div id="screen-shop" class="screen">
+  <h2>🛍️ La Boutique</h2>
+  <div id="shop-banner" class="player-banner"></div>
+  <p class="subtitle" style="font-size:1rem">Gagne des pièces dans les niveaux pour débloquer de nouveaux héros !</p>
+  <div id="shop-grid" class="shop-grid"></div>
+  <button id="btn-shop-back" class="small-btn">↩ Retour à la carte</button>
 </div>
 
 <!-- ÉCRAN : Jeu -->
@@ -67,6 +81,7 @@
 <!-- MODALE : Question (bloc ? et quiz) -->
 <div id="quiz-overlay" class="overlay hidden">
   <div class="quiz-card">
+    <div id="quiz-boss" class="quiz-boss hidden"></div>
     <div id="quiz-header" class="quiz-header"></div>
     <div id="quiz-progress" class="quiz-progress"></div>
     <div class="quiz-question-row">
@@ -124,6 +139,7 @@
 <div id="rotate-hint" class="rotate-hint hidden">📱 Tourne l'écran en mode paysage pour mieux jouer ! 🔄</div>
 
 <script src="js/config.js"></script>
+<script src="js/dictee.js"></script>
 <script src="js/questions.js"></script>
 <script src="js/questions-extra.js"></script>
 <script src="js/levels.js"></script>

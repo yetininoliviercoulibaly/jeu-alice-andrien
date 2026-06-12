@@ -33,10 +33,24 @@ une application. (La progression est sauvegardée sur chaque appareil.)
   ses étoiles ⭐ et ses pièces, sauvegardés sur l'appareil.
 - Le bouton 🔊 **lit les questions à voix haute** (lecture automatique pour les
   profils maternelle) — pratique pour les enfants qui ne lisent pas encore.
+- **Combats de boss** ⚔️ aux niveaux 4 (🦀), 7 (🐉) et 10 (👾) : chaque bonne
+  réponse enlève un cœur au boss, chaque erreur coûte un bouclier !
+- **Dictées vocales** ✍️ : la voix lit un mot et l'enfant l'écrit (en
+  maternelle, on recopie le mot affiché). Accents et majuscules tolérés.
+- **Boutique** 🛍️ : les pièces gagnées débloquent 12 nouveaux héros.
+- **Révision intelligente** 🔁 : les questions ratées reviennent dans les
+  prochains quiz jusqu'à être maîtrisées.
+- **Difficulté adaptative** : si l'enfant enchaîne les bonnes réponses, les
+  questions montent d'un cran ; s'il peine, elles redescendent.
+- **Application installable (PWA)** 📱 : depuis le navigateur du téléphone,
+  « Ajouter à l'écran d'accueil » installe le jeu avec son icône 🍄 — il
+  fonctionne ensuite même sans internet.
 
 ## ⚙️ Espace Parents (dans le jeu)
 
 Accessible depuis l'écran d'accueil (protégé par une petite multiplication 😉) :
+- **Tableau de bord par enfant** : taux de réussite par matière et liste des
+  questions à revoir — pour repérer les points à travailler
 - **Seuil de réussite par niveau** (en % de bonnes réponses au quiz)
 - **Nombre de questions par quiz** (3 à 12)
 - **Changer la classe** d'un enfant ou supprimer un profil

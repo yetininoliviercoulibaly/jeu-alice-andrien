@@ -110,6 +110,46 @@
     showScreen("screen-profiles");
   });
 
+  /* ---------------- Boutique ---------------- */
+  function renderShop() {
+    const p = currentProfile;
+    $("shop-banner").innerHTML = `${p.avatar} <b>${escapeHtml(p.name)}</b> · 🪙 ${p.totalCoins || 0}`;
+    const grid = $("shop-grid");
+    grid.innerHTML = "";
+
+    const addCard = (emoji, price, owned) => {
+      const equipped = p.avatar === emoji;
+      const card = document.createElement("div");
+      const canBuy = !owned && (p.totalCoins || 0) >= price;
+      card.className = "shop-card " +
+        (equipped ? "equipped" : owned ? "owned" : canBuy ? "buyable" : "locked");
+      card.innerHTML = `<div class="shop-avatar">${emoji}</div>
+        <div class="shop-price">${owned ? "" : "🪙 " + price}</div>
+        <div class="shop-state">${equipped ? "✅ Ton héros" : owned ? "Choisir" : canBuy ? "Acheter !" : "Pas assez de pièces"}</div>`;
+      card.addEventListener("click", () => {
+        if (equipped) return;
+        if (owned) {
+          Save.equipAvatar(p, emoji);
+          Sfx.coin();
+        } else if (Save.buyAvatar(p, emoji, price)) {
+          Save.equipAvatar(p, emoji);
+          Sfx.win();
+        } else {
+          Sfx.wrong();
+          return;
+        }
+        renderShop();
+      });
+      grid.appendChild(card);
+    };
+
+    AVATARS.forEach(a => addCard(a, 0, true));
+    SHOP_AVATARS.forEach(s => addCard(s.e, s.price, p.owned.includes(s.e)));
+  }
+
+  $("btn-shop").addEventListener("click", () => { renderShop(); showScreen("screen-shop"); });
+  $("btn-shop-back").addEventListener("click", () => { renderLevelMap(); showScreen("screen-levelmap"); });
+
   /* ---------------- Jeu ---------------- */
   function startLevel(index) {
     currentLevel = index;
@@ -138,14 +178,18 @@
     showScreen("screen-levelmap");
   });
 
+  // Difficulté adaptative : celle du niveau, ajustée aux résultats récents
   function questionDifficulty() {
-    return CONFIG.levels[currentLevel].difficulty;
+    return Save.adaptiveDifficulty(currentProfile, CONFIG.levels[currentLevel].difficulty);
   }
 
   /* ---- Bloc « ? » frappé pendant le niveau ---- */
   function handleQuestionBlock() {
     Engine.setPaused(true);
-    const item = Questions.getOne(currentProfile.tier, questionDifficulty());
+    // Une fois sur quatre, on repose une question ratée (révision)
+    let item = null;
+    if (Math.random() < 0.25) item = Save.takeReviewItems(currentProfile, 1)[0] || null;
+    if (!item) item = Questions.getOne(currentProfile.tier, questionDifficulty());
     Quiz.askSingle(item, (correct) => {
       Engine.coins += correct ? CONFIG.blockRewardCoins : CONFIG.blockConsolationCoins;
       updateHud(Engine.hearts, Engine.coins);
@@ -163,7 +207,11 @@
     const tier = currentProfile.tier;
     const threshold = Save.getThreshold(currentLevel);
     const questions = Questions.getQuiz(tier, questionDifficulty(), Save.getQuizCount());
-    Quiz.runQuiz(questions, threshold, (result) => showResults(result, coins, threshold));
+    // Jusqu'à 2 questions ratées précédemment reviennent dans le quiz
+    const reviews = Save.takeReviewItems(currentProfile, 2);
+    reviews.forEach((r, i) => { questions[questions.length - 1 - i] = r; });
+    const boss = CONFIG.levels[currentLevel].boss || null;
+    Quiz.runQuiz(questions, threshold, (result) => showResults(result, coins, threshold), { boss });
   }
 
   function showResults(result, coins, threshold) {
@@ -171,23 +219,29 @@
     const pct = Math.round(result.ratio * 100);
     let stars = 0;
     if (result.passed) {
-      stars = 1;
-      if (result.ratio >= threshold + (1 - threshold) / 2) stars = 2;
-      if (result.ratio >= 0.999) stars = 3;
+      if (result.boss) {
+        // Boss : les étoiles dépendent du nombre d'erreurs
+        stars = result.wrongs === 0 ? 3 : result.wrongs === 1 ? 2 : 1;
+      } else {
+        stars = 1;
+        if (result.ratio >= threshold + (1 - threshold) / 2) stars = 2;
+        if (result.ratio >= 0.999) stars = 3;
+      }
     }
 
     if (result.passed) {
       Sfx.win();
       Save.recordResult(currentProfile, currentLevel, stars, coins);
-      $("results-title").textContent = "🎉 Niveau réussi !";
+      $("results-title").textContent = result.boss ? "⚔️ Boss vaincu !" : "🎉 Niveau réussi !";
       $("results-message").textContent = stars === 3
         ? "Sans faute, champion·ne ! 🏆"
         : `Bravo ${currentProfile.name} ! Continue comme ça !`;
     } else {
       Sfx.lose();
-      $("results-title").textContent = "Presque !";
-      $("results-message").textContent =
-        `Il faut au moins ${Math.round(threshold * 100)} % de bonnes réponses. Tu peux réessayer le quiz, tu vas y arriver ! 💪`;
+      $("results-title").textContent = result.boss ? "Le boss t'a repoussé…" : "Presque !";
+      $("results-message").textContent = result.boss
+        ? "Entraîne-toi et reviens le défier, tu vas y arriver ! ⚔️"
+        : `Il faut au moins ${Math.round(threshold * 100)} % de bonnes réponses. Tu peux réessayer le quiz, tu vas y arriver ! 💪`;
     }
 
     $("results-stars").textContent = result.passed ? "⭐".repeat(stars) + "☆".repeat(3 - stars) : "😺";
@@ -332,7 +386,41 @@
         }
       });
       pp.appendChild(row);
+      pp.appendChild(renderProfileStats(p));
     });
+  }
+
+  // Tableau de bord : taux de réussite par matière + questions à revoir
+  function renderProfileStats(p) {
+    const block = document.createElement("div");
+    block.className = "stats-block";
+    let any = false;
+    for (const s of SUBJECTS) {
+      const st = p.stats[s];
+      if (!st || !st.total) continue;
+      any = true;
+      const pct = Math.round(100 * st.ok / st.total);
+      const cls = pct >= 70 ? "" : pct >= 50 ? "mid" : "low";
+      const row = document.createElement("div");
+      row.className = "stats-row";
+      row.innerHTML = `<span class="stats-label">${SUBJECT_LABELS[s]}</span>
+        <div class="stats-bar"><div class="${cls}" style="width:${pct}%"></div></div>
+        <span class="stats-pct">${pct} % (${st.ok}/${st.total})</span>`;
+      block.appendChild(row);
+    }
+    if (!any) {
+      block.innerHTML = `<div class="missed-list">Pas encore de réponses enregistrées.</div>`;
+      return block;
+    }
+    if (p.review.length) {
+      const top = p.review.slice().sort((a, b) => b.fails - a.fails).slice(0, 3);
+      const list = document.createElement("div");
+      list.className = "missed-list";
+      list.innerHTML = `🔁 <b>${p.review.length} question(s) à revoir</b>, dont :<br>` +
+        top.map(r => `• ${escapeHtml(r.item.type === "dictee" ? "Dictée : " + r.item.word : r.item.q)} (ratée ${r.fails}×)`).join("<br>");
+      block.appendChild(list);
+    }
+    return block;
   }
 
   $("btn-parents-save").addEventListener("click", () => {
@@ -367,6 +455,16 @@
   Engine.init($("game-canvas"));
   renderProfiles();
   overlayObserver.observe($("quiz-overlay"), { attributes: true, attributeFilter: ["class"] });
+
+  // Chaque réponse alimente les statistiques et la révision intelligente
+  Quiz.onAnswer = (item, correct) => {
+    if (currentProfile) Save.recordAnswer(currentProfile, item, correct);
+  };
+
+  // Application installable + jeu hors ligne (PWA)
+  if ("serviceWorker" in navigator && location.protocol === "https:") {
+    navigator.serviceWorker.register("sw.js").catch(() => {});
+  }
 
   // Débloque l'audio au premier geste (exigence des navigateurs)
   window.addEventListener("pointerdown", () => Sfx._ensure(), { once: true });
