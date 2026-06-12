@@ -221,7 +221,14 @@
     ArrowRight: "right", KeyD: "right",
     ArrowUp: "jump", Space: "jump", KeyW: "jump", KeyZ: "jump",
   };
+  // Le clavier ne pilote le jeu que pendant une partie, jamais quand on
+  // écrit dans un champ de texte (sinon Q, D, Z, espace… sont avalés)
+  function isTyping(e) {
+    const el = e.target;
+    return el && (el.tagName === "INPUT" || el.tagName === "TEXTAREA" || el.tagName === "SELECT");
+  }
   window.addEventListener("keydown", (e) => {
+    if (isTyping(e) || !$("screen-game").classList.contains("active")) return;
     const action = KEYMAP[e.code];
     if (action) { Engine.input[action] = true; e.preventDefault(); }
   });
