@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Les Aventures d'Alice et Andrien</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ÉCRAN : Sélection du profil -->
+<div id="screen-profiles" class="screen active">
+  <h1 class="game-title">🍄 Les Aventures<br>d'Alice <span class="amp">&</span> Andrien 🌟</h1>
+  <p class="subtitle">Qui joue aujourd'hui ?</p>
+  <div id="profile-list" class="profile-list"></div>
+  <button id="btn-new-profile" class="big-btn green">➕ Nouveau joueur</button>
+  <button id="btn-parents" class="small-btn">⚙️ Espace Parents</button>
+</div>
+
+<!-- ÉCRAN : Création de profil -->
+<div id="screen-new-profile" class="screen">
+  <h2>✨ Nouveau joueur</h2>
+  <label class="form-label">Ton prénom :</label>
+  <input id="input-name" type="text" maxlength="14" placeholder="Prénom" autocomplete="off">
+  <label class="form-label">Choisis ton héros :</label>
+  <div id="avatar-picker" class="avatar-picker"></div>
+  <label class="form-label">Ta classe :</label>
+  <div id="tier-picker" class="tier-picker"></div>
+  <div class="btn-row">
+    <button id="btn-create-profile" class="big-btn green">C'est parti ! 🚀</button>
+    <button id="btn-cancel-profile" class="small-btn">↩ Retour</button>
+  </div>
+</div>
+
+<!-- ÉCRAN : Carte des niveaux -->
+<div id="screen-levelmap" class="screen">
+  <div class="levelmap-header">
+    <button id="btn-back-profiles" class="small-btn">👤 Changer de joueur</button>
+    <div id="player-banner" class="player-banner"></div>
+  </div>
+  <h2>🗺️ Choisis ton niveau</h2>
+  <div id="level-grid" class="level-grid"></div>
+</div>
+
+<!-- ÉCRAN : Jeu -->
+<div id="screen-game" class="screen">
+  <canvas id="game-canvas"></canvas>
+  <div id="hud" class="hud">
+    <span id="hud-hearts"></span>
+    <span id="hud-coins">🪙 0</span>
+    <span id="hud-level"></span>
+    <button id="btn-quit-level" class="hud-btn">✖</button>
+  </div>
+  <!-- Contrôles tactiles -->
+  <div id="touch-controls" class="touch-controls hidden">
+    <div class="touch-left">
+      <button id="touch-leftbtn" class="touch-btn">◀</button>
+      <button id="touch-rightbtn" class="touch-btn">▶</button>
+    </div>
+    <div class="touch-right">
+      <button id="touch-jumpbtn" class="touch-btn jump">⬆</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODALE : Question (bloc ? et quiz) -->
+<div id="quiz-overlay" class="overlay hidden">
+  <div class="quiz-card">
+    <div id="quiz-header" class="quiz-header"></div>
+    <div id="quiz-progress" class="quiz-progress"></div>
+    <div class="quiz-question-row">
+      <div id="quiz-question" class="quiz-question"></div>
+      <button id="btn-speak" class="speak-btn" title="Écouter la question">🔊</button>
+    </div>
+    <div id="quiz-emoji" class="quiz-emoji"></div>
+    <div id="quiz-choices" class="quiz-choices"></div>
+    <div id="quiz-feedback" class="quiz-feedback"></div>
+    <button id="btn-quiz-next" class="big-btn green hidden">Continuer ➜</button>
+  </div>
+</div>
+
+<!-- MODALE : Résultats du quiz -->
+<div id="results-overlay" class="overlay hidden">
+  <div class="quiz-card results-card">
+    <div id="results-title" class="results-title"></div>
+    <div id="results-stars" class="results-stars"></div>
+    <div id="results-score" class="results-score"></div>
+    <div id="results-message" class="results-message"></div>
+    <div class="btn-row">
+      <button id="btn-results-next" class="big-btn green hidden">Niveau suivant ➜</button>
+      <button id="btn-results-retry" class="big-btn orange hidden">🔄 Réessayer</button>
+      <button id="btn-results-map" class="small-btn">🗺️ Carte</button>
+    </div>
+  </div>
+</div>
+
+<!-- ÉCRAN : Espace Parents -->
+<div id="screen-parents" class="screen">
+  <h2>⚙️ Espace Parents</h2>
+  <div id="parent-gate" class="parent-gate">
+    <p>Pour entrer, réponds à cette question :</p>
+    <p id="gate-question" class="gate-question"></p>
+    <input id="gate-answer" type="number" inputmode="numeric" placeholder="Réponse">
+    <div class="btn-row">
+      <button id="btn-gate-ok" class="big-btn green">Valider</button>
+      <button id="btn-gate-cancel" class="small-btn">↩ Retour</button>
+    </div>
+  </div>
+  <div id="parent-panel" class="parent-panel hidden">
+    <h3>📊 Seuil de réussite par niveau (% de bonnes réponses au quiz)</h3>
+    <div id="threshold-list" class="threshold-list"></div>
+    <h3>🎓 Nombre de questions par quiz</h3>
+    <input id="input-quizcount" type="number" min="3" max="12">
+    <h3>👤 Profils</h3>
+    <div id="parent-profiles" class="parent-profiles"></div>
+    <div class="btn-row">
+      <button id="btn-parents-save" class="big-btn green">💾 Enregistrer</button>
+      <button id="btn-parents-back" class="small-btn">↩ Retour</button>
+    </div>
+  </div>
+</div>
+
+<div id="rotate-hint" class="rotate-hint hidden">📱 Tourne l'écran en mode paysage pour mieux jouer ! 🔄</div>
+
+<script src="js/config.js"></script>
+<script src="js/questions.js"></script>
+<script src="js/questions-extra.js"></script>
+<script src="js/levels.js"></script>
+<script src="js/profiles.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/quiz.js"></script>
+<script src="js/engine.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
