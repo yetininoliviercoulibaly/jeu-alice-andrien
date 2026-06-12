@@ -5,22 +5,20 @@ Un jeu de plateforme éducatif (type Mario) pour apprendre en s'amusant :
 
 ## 🚀 Comment jouer
 
-**Sur ordinateur :** double-cliquez simplement sur le fichier `index.html`
-(il s'ouvre dans le navigateur, aucune installation nécessaire).
+**🌐 En ligne (PC, tablette, téléphone) :**
+**https://yetininoliviercoulibaly.github.io/jeu-alice-andrien/**
+Ajoutez cette adresse à l'écran d'accueil du téléphone pour la retrouver comme
+une application. (La progression est sauvegardée sur chaque appareil.)
+
+**Sur ordinateur sans internet :** double-cliquez simplement sur le fichier
+`index.html` (il s'ouvre dans le navigateur, aucune installation nécessaire).
 
 **Commandes clavier :**
 - ⬅️ ➡️ Flèches (ou Q/D) pour se déplacer
 - ⬆️ Flèche haut, Espace, Z ou W pour sauter
 
 **Sur mobile / tablette :** des boutons tactiles apparaissent automatiquement
-(tournez l'écran en mode paysage pour mieux jouer). Pour y accéder depuis un
-téléphone, deux options simples :
-
-1. **Mettre le jeu en ligne gratuitement** : créez un compte sur
-   [Netlify Drop](https://app.netlify.com/drop) et glissez-déposez ce dossier —
-   vous obtenez une adresse web utilisable partout. (GitHub Pages fonctionne aussi.)
-2. **Copier le dossier sur le téléphone** et ouvrir `index.html` avec un
-   navigateur de fichiers local.
+(tournez l'écran en mode paysage pour mieux jouer).
 
 ## 🎮 Principe du jeu
 
